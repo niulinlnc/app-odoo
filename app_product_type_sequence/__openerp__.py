@@ -48,6 +48,9 @@
     'depends': [
         'product',
         'stock',
+        'mrp',
+        'purchase',
+        'sale_management',
                 ],
     'data': [
         # 视图

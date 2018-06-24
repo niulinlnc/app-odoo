@@ -16,7 +16,7 @@
 # description:
 {
     'name': 'App Odoo Customize(Backend Debranding Title,Language,Documentation,Quick Debug,Clear Data)',
-    'version': '11.0.3.16',
+    'version': '11.0.4.30',
     'author': 'Sunpop.cn',
     'category': 'Productivity',
     'website': 'http://www.sunpop.cn',
@@ -55,16 +55,16 @@ The user can get the help document just by one click.
 
     """,
     'images': ['static/description/banner.png'],
-    'depends': ['web','mail'],
+    'depends': ['base', 'web', 'mail'],
     'data': [
         'views/app_odoo_customize_view.xml',
         'views/app_theme_config_settings_view.xml',
         'views/ir_model_view.xml',
         # data
         'data/ir_config_parameter.xml',
+        'data/res_company_data.xml',
         'data/res_groups.xml',
         'security/ir.model.access.csv',
-        'security/security.xml',
     ],
     'demo': [],
     'test': [
@@ -76,4 +76,3 @@ The user can get the help document just by one click.
         'static/src/xml/customize_user_menu.xml',
     ],
 }
-

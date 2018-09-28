@@ -37,6 +37,20 @@ class ProductTemplate(models.Model):
         default=lambda self: _('New'))
 
     @api.model
+    def default_get(self, fields):
+        context = self._context or {}
+        res = super(ProductTemplate, self).default_get(fields)
+        # 内部编码类型默认值的录入
+        if context.get("default_internal_type"):
+            self._onchange_internal_type()
+        elif context.get("default_internal_type_ref"):
+            types = self.env['product.internal.type'].search_read([('ref', '=', context.get("default_internal_type_ref"))], limit=1)
+            if types:
+                res.update({'internal_type':types[0]['id']})
+                self._onchange_internal_type()
+        return res
+
+    @api.model
     def create(self, vals):
         if 'attribute_line_ids' in vals:
             if len(vals['attribute_line_ids'])>0:
@@ -50,7 +64,7 @@ class ProductTemplate(models.Model):
         else:
             pass
 
-        if 'default_code' in vals and vals['default_code']:
+        if vals['default_code']:
             vals['default_code_stored'] = vals['default_code']
 
         return super(ProductTemplate, self).create(vals)
@@ -61,7 +75,7 @@ class ProductTemplate(models.Model):
         # 设置default_code
         for template in unique_variants:
             template.default_code = template.product_variant_ids.default_code
-        for template in (self):
+        for template in (self - unique_variants):
             if len(template.product_variant_ids)>1:
                 template.default_code = ''
 

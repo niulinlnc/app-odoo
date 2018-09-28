@@ -15,14 +15,20 @@
 # http://www.sunpop.cn/odoo10_developer_document_offline/
 # description:
 {
-    'name': 'App Web UI Enhance',
+    'name': 'App Web UI Enhance(Search by date or number range,List background color,Barcode Setting.)',
     'version': '10.0.1.0',
-    'author': 'Sunpop.cn',
     'category': 'web',
+    'author': 'Sunpop.cn',
     'website': 'http://www.sunpop.cn',
     'license': 'AGPL-3',
     'sequence': 2,
-    'summary': 'UI Enhance for Odoo. 1.Search by date or number range in List view and Pivot view. 2.Instructions for Activating List background color property',
+    'summary': """
+    UI Enhance for Odoo. 
+    1.Search by date or number range in List view and Pivot view. 
+    2.Instructions for Activating List background color property. 
+    3.Reset the barcode format.
+    4.Draggable Dialog
+    """,
     'description': """
 
 1.Search by date or number range in List view and Pivot view
@@ -40,7 +46,7 @@ eg.
         <field name="name">demo.tree</field>
         <field name="model">demo.model</field>
         <field name="arch" type="xml">
-            <tree bg_colors="grey:state=='cancel';green:state=='draft';blue:state in ('done');red:state in ('waiting')" name="demo_tree">
+            <tree bg_colors="grey:state=='cancel';green:state=='draft';blue:state in ('done');red:state in ('sale')" name="demo_tree">
                 <field name="name" string="Appointment" />
                 <field name="state" />
             </tree>
@@ -49,7 +55,7 @@ eg.
 --------------------------------------------------
 
     """,
-    'depends': ['web','app_odoo_customize'],
+    'depends': ['web', 'report', 'app_odoo_customize'],
     'data': [
         'views/app_ui_config_settings_view.xml',
         'views/template_view.xml',
@@ -61,7 +67,7 @@ eg.
     ],
     "price": 68.00,
     "currency": "EUR",
-    
+
     'images': ['static/description/list_pivot.png'],
 
     'installable': True,

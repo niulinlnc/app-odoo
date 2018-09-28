@@ -233,10 +233,13 @@ class AppThemeConfigSettings(models.TransientModel):
             ['mrp.workcenter.productivity', ],
             ['mrp.workorder', ],
             ['mrp.production.workcenter.line', ],
+            ['change.production.qty', ],
             ['mrp.production', ],
             ['mrp.production.product.line', ],
             ['mrp.unbuild', ],
             ['change.production.qty', ],
+            ['sale.forecast.indirect', ],
+            ['sale.forecast', ],
         ]
         try:
             for line in to_removes:
@@ -282,6 +285,7 @@ class AppThemeConfigSettings(models.TransientModel):
             ['stock.quant', ],
             ['stock.quant.package', ],
             ['stock.quant.move.rel', ],
+            ['stock.move.line', ],
             ['stock.move', ],
             ['stock.pack.operation', ],
             ['stock.picking', ],
@@ -406,6 +410,27 @@ class AppThemeConfigSettings(models.TransientModel):
         return True
 
     @api.multi
+    def remove_project(self):
+        to_removes = [
+            # 清除项目
+            ['account.analytic.line', ],
+            ['project.task', ],
+            ['project.forecast', ],
+            ['project.project', ],
+        ]
+        try:
+            for line in to_removes:
+                obj_name = line[0]
+                obj = self.pool.get(obj_name)
+                if obj:
+                    sql = "delete from %s" % obj._table
+                    self._cr.execute(sql)
+            # 更新序号
+        except Exception as e:
+            pass  # raise Warning(e)
+        return True
+
+    @api.multi
     def remove_message(self):
         to_removes = [
             # 清除消息数据
@@ -438,6 +463,20 @@ class AppThemeConfigSettings(models.TransientModel):
                     sql = "delete from %s" % obj._table
                     self._cr.execute(sql)
 
+        except Exception as e:
+            pass  # raise Warning(e)
+        return True
+
+    @api.multi
+    def remove_all_biz(self):
+        try:
+            self.remove_sales()
+            self.remove_purchase()
+            self.remove_account()
+            self.remove_mrp()
+            self.remove_inventory()
+            self.remove_project()
+            self.remove_message()
         except Exception as e:
             pass  # raise Warning(e)
         return True

@@ -41,7 +41,7 @@
         # 'app_web_one2many_multi_add',
         'purchase',
     ],
-    'images': ['static/description/banner.png'],
+    'images': ['static/description/purchase1.gif'],
     'data': [
         'views/purchase_order_views.xml',
     ],
@@ -54,8 +54,6 @@
     'qweb': [
     ],
     'js': [
-    ],
-    'images': [
     ],
     'post_load': None,
     'post_init_hook': None,

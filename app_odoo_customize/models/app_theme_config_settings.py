@@ -51,9 +51,9 @@ class AppThemeConfigSettings(models.TransientModel):
         app_stop_subscribe = True if ir_config.sudo().get_param('app_stop_subscribe') == "True" else False
 
         app_documentation_url = ir_config.sudo().get_param('app_documentation_url',
-                                                    default='http://www.sunpop.cn/documentation/user/10.0/en/index.html')
+                                                    default='http://www.sunpop.cn/documentation/user/12.0/en/index.html')
         app_documentation_dev_url = ir_config.sudo().get_param('app_documentation_dev_url',
-                                                        default='http://www.sunpop.cn/documentation/10.0/index.html')
+                                                        default='http://www.sunpop.cn/documentation/12.0/index.html')
         app_support_url = ir_config.sudo().get_param('app_support_url', default='http://www.sunpop.cn/trial/')
         app_account_title = ir_config.sudo().get_param('app_account_title', default='My Online Account')
         app_account_url = ir_config.sudo().get_param('app_account_url', default='http://www.sunpop.cn/my-account/')
@@ -95,9 +95,9 @@ class AppThemeConfigSettings(models.TransientModel):
         # ir_config.set_param("group_show_author_in_apps", self.group_show_author_in_apps or "False")
 
         ir_config.set_param("app_documentation_url",
-                            self.app_documentation_url or "http://www.sunpop.cn/documentation/user/10.0/en/index.html")
+                            self.app_documentation_url or "http://www.sunpop.cn/documentation/user/12.0/en/index.html")
         ir_config.set_param("app_documentation_dev_url",
-                            self.app_documentation_dev_url or "http://www.sunpop.cn/documentation/10.0/index.html")
+                            self.app_documentation_dev_url or "http://www.sunpop.cn/documentation/12.0/index.html")
         ir_config.set_param("app_support_url", self.app_support_url or "http://www.sunpop.cn/trial/")
         ir_config.set_param("app_account_title", self.app_account_title or "My Online Account")
         ir_config.set_param("app_account_url", self.app_account_url or "http://www.sunpop.cn/my-account/")
@@ -353,14 +353,17 @@ class AppThemeConfigSettings(models.TransientModel):
             # 清除财务会计单据
             ['account.voucher.line', ],
             ['account.voucher', ],
-            ['account.bank.statement', ],
             ['account.bank.statement.line', ],
+            ['account.bank.statement', ],
             ['account.payment', ],
             ['account.analytic.line', ],
+            ['account.analytic.account', ],
             ['account.invoice.line', ],
+            ['account.invoice.refund', ],
             ['account.invoice', ],
             ['account.partial.reconcile', ],
             ['account.move.line', ],
+            ['hr.expense.sheet', ],
             ['account.move', ],
         ]
         try:
@@ -506,11 +509,11 @@ class AppThemeConfigSettings(models.TransientModel):
     @api.multi
     def remove_all_biz(self):
         try:
-            self.remove_sales()
-            self.remove_purchase()
             self.remove_account()
-            self.remove_mrp()
             self.remove_inventory()
+            self.remove_mrp()
+            self.remove_purchase()
+            self.remove_sales()
             self.remove_project()
             self.remove_message()
         except Exception as e:

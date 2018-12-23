@@ -24,12 +24,10 @@ class AccountAccount(models.Model):
     _parent_store = True
     _parent_order = 'code'
     # _rec_name = 'complete_name'
-    _order = 'parent_left'
 
     parent_id = fields.Many2one('account.account', 'Parent Chart', index=True, ondelete='cascade')
-    child_id = fields.One2many('account.account', 'parent_id', 'Child Chart')
-    parent_left = fields.Integer('Left Parent', index=1)
-    parent_right = fields.Integer('Right Parent', index=1)
+    child_ids = fields.One2many('account.account', 'parent_id', 'Child Chart')
+    parent_path = fields.Char(index=True)
 
     @api.model
     def _search_new_account_code(self, company, digits, prefix):
@@ -41,4 +39,3 @@ class AccountAccount(models.Model):
             if not rec:
                 return new_code
         raise UserError(_('Cannot generate an unused account code.'))
-

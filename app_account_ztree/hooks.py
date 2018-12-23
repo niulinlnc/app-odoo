@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Created on 2018-11-28
+# Created on 2018-10-12
 # author: 广州尚鹏，http://www.sunpop.cn
 # email: 300883@qq.com
 # resource of Sunpop
@@ -15,18 +15,6 @@
 # http://www.sunpop.cn/odoo10_developer_document_offline/
 # description:
 
-from odoo import api, fields, models, exceptions, _
-
-class AccountAccountTemplate(models.Model):
-
-    _inherit = ['account.account.template']
-    _parent_name = "parent_id"
-    _parent_store = True
-    _parent_order = 'code'
-    # _rec_name = 'complete_name'
-
-    parent_id = fields.Many2one('account.account.template', 'Parent Chart', index=True, ondelete='cascade')
-    child_ids = fields.One2many('account.account.template', 'parent_id', 'Child Chart')
-    parent_path = fields.Char(index=True)
-
-
+def post_init_hook(cr, pool):
+    pass
+    # cr.execute("")

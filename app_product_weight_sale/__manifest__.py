@@ -3,13 +3,14 @@
 
 {
     'name': 'App Product Weight in Sales Order',
-    'version': '12.0.11.26',
-    'summary': 'Add Product sku weight in Sale Order, product weight, sale weight, total weight',
+    'version': '12.19.01.03',
+    'summary': 'Add Product sku weight in Sale Order, product weight, sale weight, sale order weight, total weight, kg kg(s) lb lb(s) support',
     'sequence': 10,
     'license': 'LGPL-3',
     'description': """
-    Add product sku weight in Sale Order. Unit of measure auto weight.
-    Calculates total weight of a sale order, which is the sum of individual weights of each unit of the products in the order
+    Add product sku weight in Sale Order. Unit of measure auto weight, kg kg(s) lb lb(s) support. weight sale order.
+    Calculates total weight of a sale order, which is the sum of individual weights of each unit of the products in the order。
+    Support kg(s) or lb(s)
     """,
     'category': 'Sales',
     'author': 'Sunpop.cn',

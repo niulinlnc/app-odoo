@@ -3,7 +3,8 @@
     <data>
         <record id="view_app_theme_config_settings" model="ir.ui.view">
             <field name="name">Odoo Customize Settings</field>
-            <field name="model">app.theme.config.settings</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority">20</field>
             <field name="arch" type="xml">
                 <form string="odooApp Customize Settings" class="oe_form_configuration">
                     <header>
@@ -168,8 +169,9 @@
         <record id="action_app_theme_config" model="ir.actions.act_window">
             <field name="name">Customize Debrand</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">app.theme.config.settings</field>
+            <field name="res_model">res.config.settings</field>
             <field name="view_mode">form</field>
+            <field name="view_id" ref="view_app_theme_config_settings"/>
             <field name="target">inline</field>
         </record>
 

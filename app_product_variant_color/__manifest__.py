@@ -20,36 +20,35 @@
 # Odoo10离线开发手册下载-含python教程，jquery参考，Jinja2模板，PostgresSQL参考（odoo开发必备）
 # http://www.sunpop.cn/odoo10_developer_document_offline/
 
+# Odoo, Open Source Web Widget Color
+# Copyright (C) 2012 Savoir-faire Linux (<http://www.savoirfairelinux.com>).
+# Copyright (C) 2014 Anybox <http://anybox.fr>
+# Copyright (C) 2015 Taktik SA <http://taktik.be>
+# Copyright (C) 2018 Alexandre Díaz <dev@redneboa.es>
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).#
+
 {
-    'name': 'App Web Responsive Fullwidth (form view full width)',
-    'version': '12.0.1.2',
-    'category': 'web',
-    'author': 'Sunpop.cn',
-    'website': 'http://www.sunpop.cn',
-    'license': 'AGPL-3',
-    'sequence': 2,
+    'name': "App Product Attribute Color",
+    'category': "Sales",
+    'version': "12.19.1.04",
+    "author": "Sunpop.cn",
+    'price': 0.00,
+    'currency': 'EUR',
     'summary': """
-    Form view Responsive full width (fullwidth). Ready for small, medium, large, extra large screen.Ready for enterprise and communicate version.
+    Use for quick select color. can be use in product attribute and other color variant. color widget. color pick.
     """,
-    'description': """
-    UI Enhance for Odoo. Form view fullwidth, full screen.
-    ready
-    """,
+    'images': ['static/description/banner.png'],
     'depends': [
-        'web'
+        'app_web_widget_color',
+        'sale',
     ],
     'data': [
-        'views/template_view.xml',
+        'view/product_attribute_views.xml'
     ],
     'qweb': [
-        'static/src/xml/*.xml',
+        'static/src/xml/widget.xml',
     ],
-    "price": 18.00,
-    "currency": "EUR",
-
-    'images': ['static/description/banner.png'],
-
+    'license': 'AGPL-3',
+    'auto_install': True,
     'installable': True,
-    'auto_install': False,
-    'application': True,
 }

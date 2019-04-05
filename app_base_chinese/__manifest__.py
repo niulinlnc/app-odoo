@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 
 # Created on 2018-11-05
-# author: 广州尚鹏，http://www.sunpop.cn
+# author: 广州尚鹏，https://www.sunpop.cn
 # email: 300883@qq.com
 # resource of Sunpop
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 # Odoo在线中文用户手册（长期更新）
-# http://www.sunpop.cn/documentation/user/10.0/zh_CN/index.html
+# https://www.sunpop.cn/documentation/user/10.0/zh_CN/index.html
 
 # Odoo10离线中文用户手册下载
-# http://www.sunpop.cn/odoo10_user_manual_document_offline/
+# https://www.sunpop.cn/odoo10_user_manual_document_offline/
 # Odoo10离线开发手册下载-含python教程，jquery参考，Jinja2模板，PostgresSQL参考（odoo开发必备）
-# http://www.sunpop.cn/odoo10_developer_document_offline/
+# https://www.sunpop.cn/odoo10_developer_document_offline/
 # description:
 
 
@@ -21,7 +21,7 @@
     'version': '12.19.03.04',
     'author': 'Sunpop.cn',
     'category': 'Base',
-    'website': 'http://www.sunpop.cn',
+    'website': 'https://www.sunpop.cn',
     'license': 'LGPL-3',
     'sequence': 2,
     'summary': """
@@ -36,6 +36,7 @@
     2. 客户加简称，地址显示中文化，客户编码显示优先
     3. 客户地址显示增加手机号与电话号码
     4. 货币处理，增加排序显示
+    6. 用户名支持翻译（可能会增加复杂度，后续看）
     5. 修正产品类别的列表及m2o字段中不显示中文目录名的Bug
     11. todo:中文演示数据(只有demo模式才加载)
     

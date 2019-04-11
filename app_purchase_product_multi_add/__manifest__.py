@@ -17,7 +17,7 @@
 
 {
     'name': "App Purchase Order Product Multi Batch Add",
-    'version': '12.19.03.14',
+    'version': '12.19.04.07',
     'author': 'Sunpop.cn',
     'category': 'Base',
     'website': 'https://www.sunpop.cn',
@@ -41,7 +41,7 @@
         # 'app_web_one2many_multi_add',
         'purchase',
     ],
-    'images': ['static/description/purchase1.gif'],
+    'images': ['static/description/banner.gif'],
     'data': [
         'views/purchase_order_views.xml',
     ],

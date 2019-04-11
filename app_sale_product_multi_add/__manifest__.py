@@ -17,7 +17,7 @@
 
 {
     'name': "App Sale Order Product Multi Batch Add",
-    'version': '12.19.03.14',
+    'version': '12.19.04.07',
     'author': 'Sunpop.cn',
     'category': 'Base',
     'website': 'https://www.sunpop.cn',
@@ -41,7 +41,7 @@
         # 'app_web_one2many_multi_add',
         'sale_management',
     ],
-    'images': ['static/description/sale1.gif'],
+    'images': ['static/description/banner.gif'],
     'data': [
         'views/sale_order_views.xml',
     ],

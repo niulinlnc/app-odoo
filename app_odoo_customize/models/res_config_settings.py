@@ -31,6 +31,7 @@ class ResConfigSettings(models.TransientModel):
     app_support_url = fields.Char('Support Url')
     app_account_title = fields.Char('My Odoo.com Account Title')
     app_account_url = fields.Char('My Odoo.com Account Url')
+    app_enterprise_url = fields.Char('Customize Module Url(eg. Enterprise)')
 
     @api.model
     def get_values(self):
@@ -56,6 +57,7 @@ class ResConfigSettings(models.TransientModel):
         app_support_url = ir_config.get_param('app_support_url', default='https://www.sunpop.cn/trial/')
         app_account_title = ir_config.get_param('app_account_title', default='My Online Account')
         app_account_url = ir_config.get_param('app_account_url', default='https://www.sunpop.cn/my-account/')
+        app_enterprise_url = ir_config.get_param('app_enterprise_url', default='https://www.sunpop.cn')
         res.update(
             app_system_name=app_system_name,
             app_show_lang=app_show_lang,
@@ -73,7 +75,8 @@ class ResConfigSettings(models.TransientModel):
             app_documentation_dev_url=app_documentation_dev_url,
             app_support_url=app_support_url,
             app_account_title=app_account_title,
-            app_account_url=app_account_url
+            app_account_url=app_account_url,
+            app_enterprise_url=app_enterprise_url
         )
         return res
 
@@ -100,13 +103,22 @@ class ResConfigSettings(models.TransientModel):
         ir_config.set_param("app_support_url", self.app_support_url or "https://www.sunpop.cn/trial/")
         ir_config.set_param("app_account_title", self.app_account_title or "My Online Account")
         ir_config.set_param("app_account_url", self.app_account_url or "https://www.sunpop.cn/my-account/")
+        ir_config.set_param("app_enterprise_url", self.app_enterprise_url or "https://www.sunpop.cn")
 
-    @api.multi
+    def set_module_url(self):
+        sql = "UPDATE ir_module_module SET website = '%s' WHERE license like '%s' and website <> ''" % (self.app_enterprise_url, 'OEEL%')
+        try:
+            self._cr.execute(sql)
+        except Exception as e:
+            pass
+
     def remove_sales(self):
         to_removes = [
             # 清除销售单据
             ['sale.order.line', ],
             ['sale.order', ],
+            # 销售提成，自用
+            ['sale.commission.line', ],
             # 不能删除报价单模板
             # ['sale.order.template.option', ],
             # ['sale.order.template.line', ],
@@ -120,7 +132,9 @@ class ResConfigSettings(models.TransientModel):
                     sql = "delete from %s" % obj._table
                     self._cr.execute(sql)
             # 更新序号
-            seqs = self.env['ir.sequence'].search([('code', '=', 'sale.order')])
+            seqs = self.env['ir.sequence'].search([
+                '|', ('code', '=', 'sale.order'),
+                ('code', '=', 'sale.commission.line')])
             for seq in seqs:
                 seq.write({
                     'number_next': 1,
@@ -214,6 +228,32 @@ class ResConfigSettings(models.TransientModel):
                 '|', ('code', '=', 'purchase.order'),
                 '|', ('code', '=', 'purchase.requisition.purchase.tender'),
                 ('code', '=', 'purchase.requisition.blanket.order')])
+            for seq in seqs:
+                seq.write({
+                    'number_next': 1,
+                })
+            self._cr.execute(sql)
+        except Exception as e:
+            pass  # raise Warning(e)
+        return True
+
+    @api.multi
+    def remove_expense(self):
+        to_removes = [
+            # 清除采购单据
+            ['hr.expense.sheet', ],
+            ['hr.expense', ],
+        ]
+        try:
+            for line in to_removes:
+                obj_name = line[0]
+                obj = self.pool.get(obj_name)
+                if obj:
+                    sql = "delete from %s" % obj._table
+                    self._cr.execute(sql)
+            # 更新序号
+            seqs = self.env['ir.sequence'].search([
+                ('code', '=', 'hr.expense.invoice')])
             for seq in seqs:
                 seq.write({
                     'number_next': 1,

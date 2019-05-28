@@ -16,8 +16,8 @@
 # description:
 
 {
-    'name': "Stock Superbar ztree, parent children tree",
-    'version': '12.0.10.15',
+    'name': "App stock Searchpanel Hierarchy Tree, quick kanban filter",
+    'version': '12.19.04.29',
     'author': 'Sunpop.cn',
     'category': 'Base',
     'website': 'https://www.sunpop.cn',

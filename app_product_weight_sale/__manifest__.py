@@ -1,9 +1,8 @@
 # -*- coding: utf-8 ---*---
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 {
     'name': 'Weight in Sales Order',
-    'version': '12.19.04.16',
+    'version': '12.19.06.10',
     'summary': 'Add Product sku weight in Sale Order, product weight, sale weight, sale order weight, total weight, kg kg(s) lb lb(s) support',
     'sequence': 10,
     'license': 'LGPL-3',

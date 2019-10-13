@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import ir_ui_view
-import app_theme_config_settings
-import base_language_install
-import mail_thread
+from . import res_config_settings
+from . import ir_ui_view
+from . import base_language_install
+from . import models
+# from . import ir_ui_menu
+# from . import mail_thread

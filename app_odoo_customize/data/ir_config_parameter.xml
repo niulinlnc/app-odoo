@@ -3,7 +3,7 @@
     <data noupdate="0">
         <record id="app_system_name" model="ir.config_parameter">
             <field name="key">app_system_name</field>
-            <field name="value">odooApp</field>
+            <field name="value">odooApp13</field>
         </record>
 
         <record id="app_show_lang" model="ir.config_parameter">
@@ -46,18 +46,18 @@
             <field name="key">app_stop_subscribe</field>
             <field name="value">False</field>
         </record>
-        
+
         <record id="app_documentation_url" model="ir.config_parameter">
             <field name="key">app_documentation_url</field>
-            <field name="value">http://www.sunpop.cn/documentation/user/10.0/zh_CN/index.html</field>
+            <field name="value">https://www.sunpop.cn/documentation/user/12.0/zh_CN/index.html</field>
         </record>
         <record id="app_documentation_dev_url" model="ir.config_parameter">
             <field name="key">app_documentation_dev_url</field>
-            <field name="value">http://www.sunpop.cn/documentation/10.0/index.html</field>
+            <field name="value">https://www.sunpop.cn/documentation/12.0/index.html</field>
         </record>
         <record id="app_support_url" model="ir.config_parameter">
             <field name="key">app_support_url</field>
-            <field name="value">http://www.sunpop.cn/trial</field>
+            <field name="value">https://www.sunpop.cn/trial</field>
         </record>
         <record id="app_account_title" model="ir.config_parameter">
             <field name="key">app_account_title</field>
@@ -65,7 +65,7 @@
         </record>
         <record id="app_account_url" model="ir.config_parameter">
             <field name="key">app_account_url</field>
-            <field name="value">http://www.sunpop.cn/my-account</field>
+            <field name="value">https://www.sunpop.cn/my-account</field>
         </record>
     </data>
 </openerp>

@@ -10,21 +10,20 @@ _logger = logging.getLogger(__name__)
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    app_system_name = fields.Char('System Name', help=u"Setup System Name,which replace Odoo")
+    app_system_name = fields.Char('System Name', help="Setup System Name,which replace Odoo")
     app_show_lang = fields.Boolean('Show Quick Language Switcher',
-                                   help=u"When enable,User can quick switch language in user menu")
-    app_show_debug = fields.Boolean('Show Quick Debug', help=u"When enable,everyone login can see the debug menu")
-    app_show_documentation = fields.Boolean('Show Documentation', help=u"When enable,User can visit user manual")
+                                   help="When enable,User can quick switch language in user menu")
+    app_show_debug = fields.Boolean('Show Quick Debug', help="When enable,everyone login can see the debug menu")
+    app_show_documentation = fields.Boolean('Show Documentation', help="When enable,User can visit user manual")
     app_show_documentation_dev = fields.Boolean('Show Developer Documentation',
-                                                help=u"When enable,User can visit development documentation")
-    app_show_support = fields.Boolean('Show Support', help=u"When enable,User can vist your support site")
-    app_show_account = fields.Boolean('Show My Account', help=u"When enable,User can login to your website")
-    app_show_enterprise = fields.Boolean('Show Enterprise Tag', help=u"Uncheck to hide the Enterprise tag")
-    app_show_share = fields.Boolean('Show Share Dashboard', help=u"Uncheck to hide the Odoo Share Dashboard")
-    app_show_poweredby = fields.Boolean('Show Powered by Odoo', help=u"Uncheck to hide the Powered by text")
-    app_stop_subscribe = fields.Boolean('Stop Odoo Subscribe(Performance Improve)', help=u"Check to stop Odoo Subscribe function")
+                                                help="When enable,User can visit development documentation")
+    app_show_support = fields.Boolean('Show Support', help="When enable,User can vist your support site")
+    app_show_account = fields.Boolean('Show My Account', help="When enable,User can login to your website")
+    app_show_enterprise = fields.Boolean('Show Enterprise Tag', help="Uncheck to hide the Enterprise tag")
+    app_show_share = fields.Boolean('Show Share Dashboard', help="Uncheck to hide the Odoo Share Dashboard")
+    app_show_poweredby = fields.Boolean('Show Powered by Odoo', help="Uncheck to hide the Powered by text")
     group_show_author_in_apps = fields.Boolean(string="Show Author in Apps Dashboard", implied_group='app_odoo_customize.group_show_author_in_apps',
-                                               help=u"Uncheck to Hide Author and Website in Apps Dashboard")
+                                               help="Uncheck to Hide Author and Website in Apps Dashboard")
 
     app_documentation_url = fields.Char('Documentation Url')
     app_documentation_dev_url = fields.Char('Developer Documentation Url')
@@ -48,7 +47,6 @@ class ResConfigSettings(models.TransientModel):
         app_show_enterprise = True if ir_config.get_param('app_show_enterprise') == "True" else False
         app_show_share = True if ir_config.get_param('app_show_share') == "True" else False
         app_show_poweredby = True if ir_config.get_param('app_show_poweredby') == "True" else False
-        app_stop_subscribe = True if ir_config.get_param('app_stop_subscribe') == "True" else False
 
         app_documentation_url = ir_config.get_param('app_documentation_url',
                                                     default='https://www.sunpop.cn/documentation/user/12.0/en/index.html')
@@ -69,7 +67,6 @@ class ResConfigSettings(models.TransientModel):
             app_show_enterprise=app_show_enterprise,
             app_show_share=app_show_share,
             app_show_poweredby=app_show_poweredby,
-            app_stop_subscribe=app_stop_subscribe,
 
             app_documentation_url=app_documentation_url,
             app_documentation_dev_url=app_documentation_dev_url,
@@ -93,7 +90,6 @@ class ResConfigSettings(models.TransientModel):
         ir_config.set_param("app_show_enterprise", self.app_show_enterprise or "False")
         ir_config.set_param("app_show_share", self.app_show_share or "False")
         ir_config.set_param("app_show_poweredby", self.app_show_poweredby or "False")
-        ir_config.set_param("app_stop_subscribe", self.app_stop_subscribe or "False")
 
         ir_config.set_param("app_documentation_url",
                             self.app_documentation_url or "https://www.sunpop.cn/documentation/user/12.0/en/index.html")
@@ -108,6 +104,7 @@ class ResConfigSettings(models.TransientModel):
         sql = "UPDATE ir_module_module SET website = '%s' WHERE license like '%s' and website <> ''" % (self.app_enterprise_url, 'OEEL%')
         try:
             self._cr.execute(sql)
+            self._cr.commit()
         except Exception as e:
             pass
 
@@ -130,10 +127,9 @@ class ResConfigSettings(models.TransientModel):
                 if obj:
                     sql = "delete from %s" % obj._table
                     self._cr.execute(sql)
+                    self._cr.commit()
             # 更新序号
-            seqs = self.env['ir.sequence'].search([
-                '|', ('code', '=', 'sale.order'),
-                ('code', '=', 'sale.commission.line')])
+            seqs = self.env['ir.sequence'].search([('code', 'like', 'sale%')])
             for seq in seqs:
                 seq.write({
                     'number_next': 1,
@@ -155,6 +151,7 @@ class ResConfigSettings(models.TransientModel):
                 if obj:
                     sql = "delete from %s" % obj._table
                     self._cr.execute(sql)
+                    self._cr.commit()
             # 更新序号,针对自动产品编号
             seqs = self.env['ir.sequence'].search([('code', '=', 'product.product')])
             for seq in seqs:
@@ -178,6 +175,7 @@ class ResConfigSettings(models.TransientModel):
                 if obj:
                     sql = "delete from %s" % obj._table
                     self._cr.execute(sql)
+                    self._cr.commit()
         except Exception as e:
             pass  # raise Warning(e)
         return True
@@ -185,8 +183,10 @@ class ResConfigSettings(models.TransientModel):
     def remove_pos(self):
         to_removes = [
             # 清除POS单据
+            ['pos.payment', ],
             ['pos.order.line', ],
             ['pos.order', ],
+            ['pos.session', ],
         ]
         try:
             for line in to_removes:
@@ -195,8 +195,9 @@ class ResConfigSettings(models.TransientModel):
                 if obj:
                     sql = "delete from %s" % obj._table
                     self._cr.execute(sql)
+                    self._cr.commit()
             # 更新序号
-            seqs = self.env['ir.sequence'].search([('code', '=', 'pos.order')])
+            seqs = self.env['ir.sequence'].search([('code', 'like', 'pos.%')])
             for seq in seqs:
                 seq.write({
                     'number_next': 1,
@@ -225,41 +226,15 @@ class ResConfigSettings(models.TransientModel):
                 if obj:
                     sql = "delete from %s" % obj._table
                     self._cr.execute(sql)
+                    self._cr.commit()
             # 更新序号
-            seqs = self.env['ir.sequence'].search([
-                '|', ('code', '=', 'purchase.order'),
-                '|', ('code', '=', 'purchase.requisition.purchase.tender'),
-                ('code', '=', 'purchase.requisition.blanket.order')])
+            seqs = self.env['ir.sequence'].search([('code', 'like', 'purchase.%')])
             for seq in seqs:
                 seq.write({
                     'number_next': 1,
                 })
             self._cr.execute(sql)
-        except Exception as e:
-            pass  # raise Warning(e)
-        return True
-
-    def remove_expense(self):
-        to_removes = [
-            # 清除采购单据
-            ['hr.expense.sheet', ],
-            ['hr.expense', ],
-        ]
-        try:
-            for line in to_removes:
-                obj_name = line[0]
-                obj = self.pool.get(obj_name)
-                if obj:
-                    sql = "delete from %s" % obj._table
-                    self._cr.execute(sql)
-            # 更新序号
-            seqs = self.env['ir.sequence'].search([
-                ('code', '=', 'hr.expense.invoice')])
-            for seq in seqs:
-                seq.write({
-                    'number_next': 1,
-                })
-            self._cr.execute(sql)
+            self._cr.commit()
         except Exception as e:
             pass  # raise Warning(e)
         return True
@@ -279,14 +254,16 @@ class ResConfigSettings(models.TransientModel):
                 if obj:
                     sql = "delete from %s" % obj._table
                     self._cr.execute(sql)
+                    self._cr.commit()
             # 更新序号
             seqs = self.env['ir.sequence'].search([
-                ('code', '=', 'hr.expense.invoice')])
+                ('code', 'like', 'hr.expense.%')])
             for seq in seqs:
                 seq.write({
                     'number_next': 1,
                 })
             self._cr.execute(sql)
+            self._cr.commit()
         except Exception as e:
             pass  # raise Warning(e)
         return True
@@ -312,11 +289,9 @@ class ResConfigSettings(models.TransientModel):
                 if obj:
                     sql = "delete from %s" % obj._table
                     self._cr.execute(sql)
+                    self._cr.commit()
             # 更新序号
-            seqs = self.env['ir.sequence'].search([
-                '|', ('code', '=', 'mrp.production'),
-                ('code', '=', 'mrp.unbuild'),
-            ])
+            seqs = self.env['ir.sequence'].search([('code', 'like', 'mrp.%')])
             for seq in seqs:
                 seq.write({
                     'number_next': 1,
@@ -338,6 +313,7 @@ class ResConfigSettings(models.TransientModel):
                 if obj:
                     sql = "delete from %s" % obj._table
                     self._cr.execute(sql)
+                    self._cr.commit()
         except Exception as e:
             pass  # raise Warning(e)
         return True
@@ -351,14 +327,15 @@ class ResConfigSettings(models.TransientModel):
             ['stock.quantity.history', ],
             ['stock.quant.package', ],
             ['stock.move', ],
-            ['stock.pack.operation', ],
+            # ['stock.pack.operation', ],
             ['stock.picking', ],
             ['stock.scrap', ],
             ['stock.picking.batch', ],
             ['stock.inventory.line', ],
             ['stock.inventory', ],
+            ['stock.valuation.layer', ],
             ['stock.production.lot', ],
-            ['stock.fixed.putaway.strat', ],
+            # ['stock.fixed.putaway.strat', ],
             ['procurement.group', ],
         ]
         try:
@@ -368,16 +345,11 @@ class ResConfigSettings(models.TransientModel):
                 if obj:
                     sql = "delete from %s" % obj._table
                     self._cr.execute(sql)
+                    self._cr.commit()
             # 更新序号
             seqs = self.env['ir.sequence'].search([
-                '|', ('code', '=', 'stock.lot.serial'),
-                '|', ('code', '=', 'stock.lot.tracking'),
-                '|', ('code', '=', 'stock.orderpoint'),
-                '|', ('code', '=', 'stock.picking'),
-                '|', ('code', '=', 'picking.batch'),
-                '|', ('code', '=', 'stock.quant.package'),
-                '|', ('code', '=', 'stock.scrap'),
-                '|', ('code', '=', 'stock.picking'),
+                '|', ('code', 'like', 'stock.%'),
+                '|', ('code', 'like', 'picking.%'),
                 '|', ('prefix', '=', 'WH/IN/'),
                 '|', ('prefix', '=', 'WH/INT/'),
                 '|', ('prefix', '=', 'WH/OUT/'),
@@ -416,15 +388,11 @@ class ResConfigSettings(models.TransientModel):
                 if obj:
                     sql = "delete from %s" % obj._table
                     self._cr.execute(sql)
+                    self._cr.commit()
 
                     # 更新序号
                     seqs = self.env['ir.sequence'].search([
-                        '|', ('code', '=', 'account.reconcile'),
-                        '|', ('code', '=', 'account.payment.customer.invoice'),
-                        '|', ('code', '=', 'account.payment.customer.refund'),
-                        '|', ('code', '=', 'account.payment.supplier.invoice'),
-                        '|', ('code', '=', 'account.payment.supplier.refund'),
-                        '|', ('code', '=', 'account.payment.transfer'),
+                        '|', ('code', 'like', 'account.%'),
                         '|', ('prefix', 'like', 'BNK1/'),
                         '|', ('prefix', 'like', 'CSH1/'),
                         '|', ('prefix', 'like', 'INV/'),
@@ -467,6 +435,7 @@ class ResConfigSettings(models.TransientModel):
 
             sql = ("delete from ir_default where field_id = %s or field_id = %s") % (field1, field2)
             self._cr.execute(sql)
+            self._cr.commit()
         except Exception as e:
             pass  # raise Warning(e)
         try:
@@ -508,10 +477,12 @@ class ResConfigSettings(models.TransientModel):
                 if obj:
                     sql = "delete from %s" % obj._table
                     self._cr.execute(sql)
+                    self._cr.commit()
 
 
             sql = "update res_company set chart_template_id=null;"
             self._cr.execute(sql)
+            self._cr.commit()
             # 更新序号
         except Exception as e:
             pass
@@ -533,6 +504,7 @@ class ResConfigSettings(models.TransientModel):
                 if obj:
                     sql = "delete from %s" % obj._table
                     self._cr.execute(sql)
+                    self._cr.commit()
             # 更新序号
         except Exception as e:
             pass  # raise Warning(e)
@@ -561,6 +533,7 @@ class ResConfigSettings(models.TransientModel):
                 if obj and obj._table:
                     sql = "delete from %s" % obj._table
                     self._cr.execute(sql)
+                    self._cr.commit()
         except Exception as e:
             pass  # raise Warning(e)
         return True
@@ -578,6 +551,7 @@ class ResConfigSettings(models.TransientModel):
                 if obj and obj._table:
                     sql = "delete from %s" % obj._table
                     self._cr.execute(sql)
+                    self._cr.commit()
         except Exception as e:
             pass  # raise Warning(e)
         return True
@@ -595,6 +569,7 @@ class ResConfigSettings(models.TransientModel):
                 if obj and obj._table:
                     sql = "delete from %s" % obj._table
                     self._cr.execute(sql)
+                    self._cr.commit()
 
         except Exception as e:
             pass  # raise Warning(e)

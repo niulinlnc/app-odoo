@@ -18,12 +18,14 @@
 
 {
     'name': "App base chinese，中国化基本模块增强",
-    'version': '13.19.05.17',
+    'version': '13.19.12.10',
     'author': 'Sunpop.cn',
     'category': 'Base',
     'website': 'https://www.sunpop.cn',
     'license': 'LGPL-3',
     'sequence': 2,
+    'price': 0,
+    'currency': 'EUR',
     'summary': """
     Chinese enhance. Out of the box use in china.
     Set all chinese default value.
@@ -40,14 +42,15 @@
     6. 修正产品类别的列表及m2o字段中不显示中文目录名的Bug
     7. 修正仓库位置的列表及m2o字段中不显示中文目录名的Bug
     8. 超级用户改时区为 中国
+    9. 时间格式年月日为 2019-12-30，时间为 22:10 
     11. todo:中文演示数据(只有demo模式才加载)
     
     """,
     'pre_init_hook': 'pre_init_hook',
     'post_init_hook': 'post_init_hook',
     'depends': [
+        'app_base',
         'stock',
-        'l10n_cn'
     ],
     'images': ['static/description/banner.jpg'],
     'data': [
@@ -59,6 +62,7 @@
         'data/base_data.xml',
         'data/res_country_data.xml',
         'data/res_currency_data.xml',
+        'data/res_lang_data.xml',
         'data/product_data.xml',
         'data/product_pricelist_data.xml',
     ],

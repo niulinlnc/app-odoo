@@ -30,7 +30,7 @@ Default country, timezone, currency, partner...
 2. 客户加简称，地址显示中文化，客户编码显示优先
 3. 客户地址显示增加手机号与电话号码
 4. 货币处理，增加排序显示
-5. 修正产品类别的列表及m2o字段中不显示中文目录名的Bug
+5. 修正品类的列表及m2o字段中不显示中文目录名的Bug
 
 ## app_contacts_superbar
 Browse contacts by company. Use for parent children tree list kanban navigator. 
@@ -39,7 +39,7 @@ ztree widget.Hierarchy Tree.Parent Children relation tree..
 
 ## app_hr_superbar
 Browse employees by departments tree. hr organization chart. 
-Easy to navigator and browse any data. Support Search more list, kanban, pivot, graph view. 
+Easy to navigator and browse any data. Support list, kanban, pivot, graph view. 
 ztree widget. hr Hierarchy organization chart Tree.
 人力资源模块多层级树状导航应用。按部门查看员工，超级方便的查询。
 
@@ -49,7 +49,7 @@ hr department employee tree.
 
 ## app_module_superbar
 Browse Apps by category tree. Browse Module by category. Use for parent children tree list kanban navigator. 
-Easy to navigator and browse any data. Support Search more list, kanban, pivot, graph view. 
+Easy to navigator and browse any data. Support list, kanban, pivot, graph view. 
 odoo应用多层级树状导航应用
 
 ## app_mrp_bom_product_multi_add
@@ -120,7 +120,7 @@ App MRP Bom Product Multi Batch Add
 
 ## app_product_superbar
 Browse Product by category tree. Use for parent children tree list kanban navigator. 
-Easy to navigator and browse any data. Support Search more list, kanban, pivot, graph view. 
+Easy to navigator and browse any data. Support list, kanban, pivot, graph view. 
 ztree widget.Hierarchy Tree.Parent Children relation tree..
 产品管理多层级树状导航应用
 

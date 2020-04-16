@@ -24,6 +24,7 @@ class ResConfigSettings(models.TransientModel):
     app_show_poweredby = fields.Boolean('Show Powered by Odoo', help="Uncheck to hide the Powered by text")
     group_show_author_in_apps = fields.Boolean(string="Show Author in Apps Dashboard", implied_group='app_odoo_customize.group_show_author_in_apps',
                                                help="Uncheck to Hide Author and Website in Apps Dashboard")
+    module_odoo_referral = fields.Boolean('Show Odoo Referral', help="Uncheck to remove the Odoo Referral")
 
     app_documentation_url = fields.Char('Documentation Url')
     app_documentation_dev_url = fields.Char('Developer Documentation Url')
@@ -135,7 +136,7 @@ class ResConfigSettings(models.TransientModel):
                     'number_next': 1,
                 })
         except Exception as e:
-            raise Warning(e)
+            _logger.error('remove data error: %s,%s', 'sale', e)
         return True
 
     def remove_product(self):
@@ -159,7 +160,7 @@ class ResConfigSettings(models.TransientModel):
                     'number_next': 1,
                 })
         except Exception as e:
-            pass  # raise Warning(e)
+            _logger.error('remove data error: %s,%s', 'product', e)
         return True
 
     def remove_product_attribute(self):
@@ -177,7 +178,7 @@ class ResConfigSettings(models.TransientModel):
                     self._cr.execute(sql)
                     self._cr.commit()
         except Exception as e:
-            pass  # raise Warning(e)
+            _logger.error('remove data error: %s,%s', 'product_attr', e)
         return True
 
     def remove_pos(self):
@@ -208,7 +209,7 @@ class ResConfigSettings(models.TransientModel):
                 s._end_balance()
 
         except Exception as e:
-            pass  # raise Warning(e)
+            _logger.error('remove data error: %s,%s', 'pos', e)
         return True
 
     def remove_purchase(self):
@@ -236,7 +237,7 @@ class ResConfigSettings(models.TransientModel):
             self._cr.execute(sql)
             self._cr.commit()
         except Exception as e:
-            pass  # raise Warning(e)
+            _logger.error('remove data error: %s,%s', 'purchase', e)
         return True
 
     def remove_expense(self):
@@ -265,7 +266,7 @@ class ResConfigSettings(models.TransientModel):
             self._cr.execute(sql)
             self._cr.commit()
         except Exception as e:
-            pass  # raise Warning(e)
+            _logger.error('remove data error: %s,%s', 'expense', e)
         return True
 
     def remove_mrp(self):
@@ -297,7 +298,7 @@ class ResConfigSettings(models.TransientModel):
                     'number_next': 1,
                 })
         except Exception as e:
-            pass  # raise Warning(e)
+            _logger.error('remove data error: %s,%s', 'mrp', e)
         return True
 
     def remove_mrp_bom(self):
@@ -315,7 +316,7 @@ class ResConfigSettings(models.TransientModel):
                     self._cr.execute(sql)
                     self._cr.commit()
         except Exception as e:
-            pass  # raise Warning(e)
+            _logger.error('remove data error: %s,%s', 'mrp_bom', e)
         return True
 
     def remove_inventory(self):
@@ -361,12 +362,13 @@ class ResConfigSettings(models.TransientModel):
                     'number_next': 1,
                 })
         except Exception as e:
-            pass  # raise Warning(e)
+            _logger.error('remove data error: %s,%s', 'inventory', e)
         return True
 
     def remove_account(self):
         to_removes = [
             # 清除财务会计单据
+            ['payment.transaction', ],
             ['account.voucher.line', ],
             ['account.voucher', ],
             ['account.bank.statement.line', ],
@@ -406,7 +408,7 @@ class ResConfigSettings(models.TransientModel):
                             'number_next': 1,
                         })
         except Exception as e:
-            pass  # raise Warning(e)
+            _logger.error('remove data error: %s,%s', 'account', e)
         return True
 
     def remove_account_chart(self):
@@ -420,11 +422,10 @@ class ResConfigSettings(models.TransientModel):
             ['account.bank.statement', ],
             ['account.tax.account.tag', ],
             ['account.tax', ],
-            ['account.tax', ],
             ['account.account.account.tag', ],
             ['wizard_multi_charts_accounts'],
-            ['account.account', ],
             ['account.journal', ],
+            ['account.account', ],
         ]
         # todo: 要做 remove_hr，因为工资表会用到 account
         # 更新account关联，很多是多公司字段，故只存在 ir_property，故在原模型，只能用update
@@ -434,7 +435,9 @@ class ResConfigSettings(models.TransientModel):
             field2 = self.env['ir.model.fields']._get('product.template', "supplier_taxes_id").id
 
             sql = ("delete from ir_default where field_id = %s or field_id = %s") % (field1, field2)
+            sql2 = ("update account_journal set bank_account_id=NULL;")
             self._cr.execute(sql)
+            self._cr.execute(sql2)
             self._cr.commit()
         except Exception as e:
             pass  # raise Warning(e)
@@ -446,7 +449,7 @@ class ResConfigSettings(models.TransientModel):
                     'property_account_payable_id': None,
                 })
         except Exception as e:
-            pass  # raise Warning(e)
+            _logger.error('remove data error: %s,%s', 'account_chart', e)
         try:
             rec = self.env['product.category'].search([])
             for r in rec:
@@ -507,7 +510,7 @@ class ResConfigSettings(models.TransientModel):
                     self._cr.commit()
             # 更新序号
         except Exception as e:
-            pass  # raise Warning(e)
+            _logger.error('remove data error: %s,%s', 'project', e)
         return True
 
     def remove_website(self):
@@ -517,6 +520,7 @@ class ResConfigSettings(models.TransientModel):
             ['blog.tag', ],
             ['blog.post', ],
             ['blog.blog', ],
+            ['product.wishlist', ],
             ['website.published.multi.mixin', ],
             ['website.published.mixin', ],
             ['website.multi.mixin', ],
@@ -524,6 +528,7 @@ class ResConfigSettings(models.TransientModel):
             ['website.seo.metadata', ],
             ['website.page', ],
             ['website.menu', ],
+            ['website.visitor', ],
             ['website', ],
         ]
         try:
@@ -535,7 +540,7 @@ class ResConfigSettings(models.TransientModel):
                     self._cr.execute(sql)
                     self._cr.commit()
         except Exception as e:
-            pass  # raise Warning(e)
+            _logger.error('remove data error: %s,%s', 'website', e)
         return True
 
     def remove_message(self):
@@ -553,7 +558,7 @@ class ResConfigSettings(models.TransientModel):
                     self._cr.execute(sql)
                     self._cr.commit()
         except Exception as e:
-            pass  # raise Warning(e)
+            _logger.error('remove data error: %s,%s', 'message', e)
         return True
 
     def remove_workflow(self):
@@ -572,20 +577,17 @@ class ResConfigSettings(models.TransientModel):
                     self._cr.commit()
 
         except Exception as e:
-            pass  # raise Warning(e)
+            _logger.error('remove data error: %s,%s', 'workflow', e)
         return True
 
     def remove_all_biz(self):
-        try:
-            self.remove_account()
-            self.remove_inventory()
-            self.remove_mrp()
-            self.remove_purchase()
-            self.remove_sales()
-            self.remove_project()
-            self.remove_pos()
-            self.remove_expense()
-            self.remove_message()
-        except Exception as e:
-            pass  # raise Warning(e)
+        self.remove_account()
+        self.remove_inventory()
+        self.remove_mrp()
+        self.remove_purchase()
+        self.remove_sales()
+        self.remove_project()
+        self.remove_pos()
+        self.remove_expense()
+        self.remove_message()
         return True

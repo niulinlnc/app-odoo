@@ -17,7 +17,7 @@
 
 {
     'name': "App Pos order browse by store salesperson status",
-    'version': '13.19.10.16',
+    'version': '13.20.04.11',
     'author': 'Sunpop.cn',
     'category': 'Point of Sale',
     'website': 'https://www.sunpop.cn',
@@ -25,7 +25,7 @@
     'sequence': 12,
     'summary': """
     Browse pos order by store tree. Use for parent children tree list kanban navigator. 
-    Easy to navigator and browse any data. Support Search more list, kanban, pivot, graph view. 
+    Easy to navigator and browse any data. Support list, kanban, pivot, graph view. 
     ztree widget.Hierarchy Tree.Parent Children relation tree
     """,
     'description': """

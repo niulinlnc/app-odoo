@@ -12,7 +12,8 @@
                     <!--<xpath expr="//field[@name='ref']" position="move"/>-->
                 <!--</xpath>-->
                 <xpath expr="//field[@name='type']" position="after">
-                    <field name="short_name" invisible="1"/>
+                    <field name="short_name"/>
+                    <field name="name_en_US"/>
                 </xpath>
                 <!-- 信用额度 -->
                 <xpath expr="//field[@name='category_id']" position="after">
@@ -132,9 +133,6 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_tree"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='phone']" position="before">
-                    <field name="mobile"/>
-                </xpath>
                 <xpath expr="//field[@name='email']" position="after">
                     <field name="category_id"/>
                 </xpath>
@@ -151,9 +149,6 @@
                     <field name="credit_limit"/>
                 </xpath>
                 <xpath expr="//div[@class='oe_kanban_details']/ul" position="inside">
-                    <li t-if="record.mobile and record.mobile.raw_value" class="o_text_overflow">
-                        , <field name="mobile"/>
-                    </li>
                     <li t-if="record.credit_limit and record.credit_limit.raw_value">
                         Credit：<field name="credit_limit"/>
                     </li>

@@ -27,11 +27,11 @@
 
 {
     'name': 'App Web Fontawesome',
-    'version': '13.19.05.30',
+    'version': '14.19.05.30',
     'author': 'Sunpop.cn',
     'category': 'Productivity',
     'website': 'https://www.sunpop.cn',
-    'license': 'AGPL-3',
+    'license': 'LGPL-3',
     'sequence': 20,
     'images': ['static/description/banner.png'],
     'summary': """Up to date Fontawesome resources. v5.3""",

@@ -13,7 +13,6 @@
                 <!--</xpath>-->
                 <xpath expr="//field[@name='type']" position="after">
                     <field name="short_name"/>
-                    <field name="name_en_US"/>
                 </xpath>
                 <!-- 信用额度 -->
                 <xpath expr="//field[@name='category_id']" position="after">
@@ -87,26 +86,6 @@
                 </xpath>
             </field>
         </record>
-        <!--res.partner open地址中国化 -->
-        <record id="app_view_partner_short_form" model="ir.ui.view">
-            <field name="name">app.res.partner.form</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_short_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='street']" position="before">
-                    <xpath expr="//field[@name='country_id']" position="move"/>
-                </xpath>
-                <xpath expr="//field[@name='street']" position="before">
-                    <xpath expr="//field[@name='state_id']" position="move"/>
-                </xpath>
-                <xpath expr="//field[@name='street']" position="before">
-                    <xpath expr="//field[@name='city']" position="move"/>
-                </xpath>
-                <xpath expr="//field[@name='street']" position="before">
-                    <xpath expr="//field[@name='zip']" position="move"/>
-                </xpath>
-            </field>
-        </record>
         <!--res.partner 私人地址中国化 -->
         <record id="app_res_partner_view_form_private" model="ir.ui.view">
             <field name="name">app.res.partner.view.form.private</field>
@@ -134,7 +113,7 @@
             <field name="inherit_id" ref="base.view_partner_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='email']" position="after">
-                    <field name="category_id"/>
+                    <field name="category_id" optional="show"/>
                 </xpath>
             </field>
         </record>
@@ -148,7 +127,7 @@
                 <xpath expr="//templates" position="before">
                     <field name="credit_limit"/>
                 </xpath>
-                <xpath expr="//div[@class='oe_kanban_details']/ul" position="inside">
+                <xpath expr="//div[hasclass('oe_kanban_details')]/ul" position="inside">
                     <li t-if="record.credit_limit and record.credit_limit.raw_value">
                         Credit：<field name="credit_limit"/>
                     </li>

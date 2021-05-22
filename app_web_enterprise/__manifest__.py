@@ -18,7 +18,7 @@
 
 {
     'name': "App web enterprise enhance,企业版界面增强",
-    'version': '13.19.12.10',
+    'version': '14.21.03.03',
     'author': 'Sunpop.cn',
     'category': 'Base',
     'website': 'https://www.sunpop.cn',
@@ -66,5 +66,5 @@
     'post_init_hook': None,
     'installable': True,
     'application': True,
-    'auto_install': True,
+    'auto_install': False,
 }

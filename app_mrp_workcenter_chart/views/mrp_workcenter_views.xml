@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='name']" position="after">
                 <field name="parent_id" widget="ztree_select"/>
+                <field name="level"/>
             </xpath>
             <xpath expr="//field[@name='name']" position="replace"/>
             <xpath expr="//field[@name='costs_hour']" position="after">
@@ -56,6 +57,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='name']" position="after">
                 <field name="parent_id"/>
+                <field name="level"/>
                 <field name="note"/>
             </xpath>
         </field>

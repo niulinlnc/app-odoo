@@ -22,11 +22,11 @@
 
 {
     'name': 'App Web Responsive Fullwidth (form view full width)',
-    'version': '13.19.11.01',
+    'version': '14.21.02.20',
     'category': 'web',
     'author': 'Sunpop.cn',
     'website': 'https://www.sunpop.cn',
-    'license': 'AGPL-3',
+    'license': 'LGPL-3',
     'sequence': 2,
     'summary': """
     Form view Responsive full width (fullwidth). Ready for small, medium, large, extra large screen.Ready for enterprise and communicate version.

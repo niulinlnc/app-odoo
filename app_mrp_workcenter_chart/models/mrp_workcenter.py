@@ -22,10 +22,28 @@ class MrpWorkCenter(models.Model):
     child_all_count = fields.Integer(
         'Indirect Surbordinates Count',
         compute='_compute_child_all_count', store=False)
-    parent_path = fields.Char(index=True)
+    level = fields.Integer('级别', compute='_compute_level', inverse='_set_level', default=0, store=True)
 
     @api.depends('child_ids.child_all_count')
     def _compute_child_all_count(self):
         for rec in self:
             rec.child_all_count = len(rec.child_ids) + sum(child.child_all_count for child in rec.child_ids)
 
+
+    @api.onchange('parent_id')
+    def _onchange_level(self):
+        level = 0
+        if self.parent_id:
+            level = self.parent_id.level + 1
+        self.level = level
+
+    @api.depends('parent_id', 'parent_id.level')
+    def _compute_level(self):
+        for rec in self:
+            level = 0
+            if rec.parent_id:
+                level = rec.parent_id.level + 1
+            rec.level = level
+
+    def _set_level(self):
+        pass

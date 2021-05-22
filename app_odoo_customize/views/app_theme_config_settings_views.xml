@@ -11,7 +11,7 @@
                         <button string="Apply" type="object" name="execute" class="oe_highlight"/>
                         <button string="Cancel" type="object" name="cancel" class="oe_link" special="cancel"/>
                     </header>
-                    <h2>White Label Setting</h2>
+                    <h2>Odoo Customize Setting</h2>
                     <group string="System Name">
                         <label for="app_system_name"/>
                         <div>
@@ -67,7 +67,7 @@
                                     <label for="group_show_author_in_apps"/>
                                 </div>
                                 <div>
-                                    <field name="module_odoo_referral" widget="upgrade_boolean"/>
+                                    <field name="module_odoo_referral"/>
                                     <label for="module_odoo_referral"/>
                                 </div>
                             </div>
@@ -93,6 +93,13 @@
                         <label for="app_account_url"/>
                         <div>
                             <field name="app_account_url"/>
+                        </div>
+                        <label for="app_ribbon_name"/>
+                        <div>
+                            <field name="app_ribbon_name"/>
+                            <div>
+                                <span>Set to False to hide</span>
+                            </div>
                         </div>
                         <label for="app_enterprise_url"/>
                         <div>
@@ -136,13 +143,27 @@
                                     confirm="Please confirm to delete the select data?" class="oe_highlight"/>
                         </div>
                         <div class="col-12 col-lg-12 mb4">
-                            <span class="col-3 col-lg-2 text-left">Accounting</span>
+                            <span class="col-3 col-lg-2 text-left">
+                                Accounting
+                                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." groups="base.group_multi_company"/>
+                            </span>
                             <button string="Delete All Voucher/Invoice/Bill" type="object" name="remove_account"
+                                    confirm="Please confirm to delete the select data?" class="oe_highlight"/>
+                            |
+                            <button string="Clean and reset Account Chart" type="object" name="remove_account_chart"
                                     confirm="Please confirm to delete the select data?" class="oe_highlight"/>
                         </div>
                         <div class="col-12 col-lg-12 mb4">
                             <span class="col-3 col-lg-2 text-left">Project</span>
                             <button string="Delete All Project/Task/Forecast" type="object" name="remove_project"
+                                    confirm="Please confirm to delete the select data?" class="oe_highlight"/>
+                        </div>
+                        <div class="col-12 col-lg-12 mb4">
+                            <span class="col-3 col-lg-2 text-left">Quality</span>
+                            <button string="Delete All Quality" type="object" name="remove_quality"
+                                    confirm="Please confirm to delete the select data?" class="oe_highlight"/>
+                            |
+                            <button string="Delete All Quality Setting" type="object" name="remove_quality_setting"
                                     confirm="Please confirm to delete the select data?" class="oe_highlight"/>
                         </div>
                         <div class="col-12 col-lg-12 mb4">
@@ -162,9 +183,6 @@
                                     confirm="Please confirm to delete the select data?" class="oe_highlight"/>
                             |
                             <button string="Delete All Workflow" type="object" name="remove_workflow"
-                                    confirm="Please confirm to delete the select data?" class="oe_highlight"/>
-                            |
-                            <button string="Clean and reset Account Chart" type="object" name="remove_account_chart"
                                     confirm="Please confirm to delete the select data?" class="oe_highlight"/>
                             |
                             <button string="Reset Category And Location Complete Name" type="object" name="reset_cat_loc_name" class="oe_highlight"/>

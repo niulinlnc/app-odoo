@@ -33,7 +33,7 @@
 
 {
     'name': "MRP Workcenter Parent Child Hierarchy,工作中心分级",
-    'version': '13.20.03.30',
+    'version': '14.20.03.30',
     'author': 'Sunpop.cn',
     'category': 'Base',
     'website': 'https://www.sunpop.cn',
@@ -50,7 +50,7 @@
     Odoo App of Sunpop.cn
     """,
     'description': """    
-    Support Odoo 12, 11, Enterprise and Community Edition
+    Support Odoo 14,13,12,11, Enterprise and Community Edition
     1. D
     2.     
     11. Multi-language Support.
